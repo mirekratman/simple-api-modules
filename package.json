@@ -8,9 +8,14 @@
     "node": ">=15.x"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.15.6",
     "jest": "^27.2.1"
   },
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "babel-jest": "^27.2.1",
+    "ts-jest": "^27.0.5"
   }
 }
