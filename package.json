@@ -1,0 +1,16 @@
+{
+  "name": "simple-api-modules",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": "https://github.com/mirekratman/simple-api-modules",
+  "type": "module",
+  "engines": {
+    "node": ">=15.x"
+  },
+  "devDependencies": {
+    "jest": "^27.2.1"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
