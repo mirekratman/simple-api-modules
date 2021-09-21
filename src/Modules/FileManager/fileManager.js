@@ -1,6 +1,6 @@
 "use strict";
 
-import {unlink, open, readdir, writeFile} from 'fs/promises';
+import {readFile, unlink, open, readdir, stat} from 'fs/promises';
 
 /**
  * FileManager module
@@ -18,43 +18,9 @@ export class FileManager {
     }
 
     /**
-     * Write file to disk
-     * @param file
-     */
-    async write(file, content) {
-        let filehandle = null;
-        const path = `${this.storageDir}/${file}`;
-
-        try {
-            filehandle = await open(path, 'r+');
-            return await writeFile(content);
-        }
-        catch (err) {
-            console.error(`Error occured while saving file : "${path}" !`, err);
-        }
-        finally {
-            await filehandle?.close();
-        }
-    }
-
-    /**
-     * Read file from disk
-     * @param file
-     */
-    async read(file) {
-        console.log('read');
-
-        /*
-    finally {
-            await filehandle?.close();
-        }
-*/
-    }
-
-    /**
-     * List directory
+     *
      * @param dir
-     * @returns {Promise<void>}
+     * @returns {Promise<string[] | Buffer[] | (string[] | Buffer[]) | module:fs.Dirent[]>}
      */
     async list(dir) {
         const path = `${this.storageDir}/${dir??''}`;
@@ -66,4 +32,87 @@ export class FileManager {
             console.error(`Error occured while reading directory: "${path}" !`, err);
         }
     }
+
+    /**
+     * @param dir
+     * @returns {Promise<string[] | Buffer[] | (string[] | Buffer[]) | module:fs.Dirent[]>}
+     */
+    async exist(fileName) {
+        const path = `${this.storageDir}/${fileName}`;
+
+        try {
+            let exist = await stat(path);
+            return Object.keys(exist).length !== 0??false;
+        }
+        catch (err) {
+            return false;
+        }
+    }
+
+    /**
+     * @param dir
+     * @returns {Promise<string[] | Buffer[] | (string[] | Buffer[]) | module:fs.Dirent[]>}
+     */
+    async fileStats(fileName) {
+        const path = `${this.storageDir}/${fileName}`;
+
+        try {
+            return await stat(path);
+        }
+        catch (err) {
+            console.error(`Error occured while checking file stats : "${path}" !`, err);
+        }
+    }
+
+    /**
+     * @param fileName
+     * @param content
+     * @returns {Promise<void>}
+     */
+    async write(fileName, content) {
+        let filehandle = null;
+        const path = `${this.storageDir}/${fileName}`;
+
+        try {
+            filehandle = await open(path, 'w+');
+            await filehandle.writeFile(content);
+        }
+        catch (err) {
+            console.error(`Error occured while saving file : "${path}" !`, err);
+        }
+        finally {
+            await filehandle?.close();
+        }
+    }
+
+    /**
+     * @param fileName
+     * @returns {Promise<Buffer | string | (string | Buffer)>}
+     */
+    async read(fileName) {
+        const path = `${this.storageDir}/${fileName}`;
+
+        try {
+            return await readFile(path, "utf8");
+        }
+        catch (err) {
+            console.error(`Error occured while reading file : "${path}" !`, err);
+        }
+    }
+
+    /**
+     * @param fileName
+     * @returns {Promise<void>}
+     */
+    async delete(fileName) {
+        const path = `${this.storageDir}/${fileName}`;
+
+        try {
+            await unlink(path);
+        }
+        catch (err) {
+            console.error(`Error occured while deleting file : "${path}" !`, err);
+        }
+    }
+
 }
