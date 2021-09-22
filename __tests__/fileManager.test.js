@@ -1,6 +1,5 @@
 "use strict";
 import {FileManager} from '../src/Modules/FileManager/fileManager.js';
-const fm = new FileManager(resourcesDir);
 
 /**
  * Presets
@@ -12,7 +11,7 @@ const testFile1 = 'File1.txt';
 const testFile1Content = 'File1 text';
 const testFile = 'test.txt';
 const testContent = 'Some text string';
-
+const fm = new FileManager(resourcesDir);
 
 describe("FileManager module", () => {
 

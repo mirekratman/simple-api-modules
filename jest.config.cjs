@@ -5,7 +5,7 @@ module.exports = {
         '<rootDir>/__tests__/**/*.test.js'
     ],
     transform: {
-        '^.+\\.(ts|tsx)?$': 'ts-jest',
-        "^.+\\.(js|jsx)$": "babel-jest",
+        '^.+\\.(ts)?$': 'ts-jest',
+        "^.+\\.(js)$": "babel-jest",
     }
 }
